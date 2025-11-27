@@ -3,6 +3,7 @@ import { TaskContext } from "./TaskContext";
 import { initialTaskState } from "../initialTaskState";
 import { taskReducer } from "./TaskReducer";
 import { Timeworkermenage } from "../../workes/TimerworkerMenage"
+import { TaskActionTypes } from "./TaskActions";
 
 
 
@@ -20,8 +21,15 @@ export function TaskContextProvider({children}:TtaskContextProviderProps){
       console.log(CountDownSeconds);
 
       if(CountDownSeconds <= 0){
-         console.log('Worker Completed');
+         dispatch({
+        type: TaskActionTypes.COMPLETE_TASK,
+        });
         Worker.terminate();
+      }else{    
+        dispatch({
+        type: TaskActionTypes.COUNT_DOWN,
+        playload: {secondsRemaining: CountDownSeconds},
+        });
       }
     });
 

@@ -16,9 +16,11 @@ export enum TaskActionTypes {
 }
 
 export type TaskActionsWithPayload = {
+    [x: string]: any;
     type: TaskActionTypes.START_TASK;
     playload: TaskModel;
 } | {
+    [x: string]: any;
     type: TaskActionTypes.COUNT_DOWN;
     playload: {secondsRemaining: number};
 };
