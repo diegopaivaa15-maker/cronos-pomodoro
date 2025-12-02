@@ -1,9 +1,10 @@
-import { useEffect, useReducer} from "react";
+import { useEffect, useReducer, useRef} from "react";
 import { TaskContext } from "./TaskContext";
 import { initialTaskState } from "../initialTaskState";
 import { taskReducer } from "./TaskReducer";
 import { Timeworkermenage } from "../../workes/TimerworkerMenage"
 import { TaskActionTypes } from "./TaskActions";
+import { loadBeep } from "../../utils/LodBaap";
 
 
 
@@ -13,18 +14,18 @@ import { TaskActionTypes } from "./TaskActions";
 
 export function TaskContextProvider({children}:TtaskContextProviderProps){
     const [ state,dispatch ] = useReducer(taskReducer, initialTaskState);
+     const playBeepRef = useRef<ReturnType<typeof loadBeep> | null>(null);
 
     const Worker = Timeworkermenage.getInstance();
 
     Worker.onmessage(e => {
       const CountDownSeconds = e.data;
-      console.log(CountDownSeconds);
 
       if(CountDownSeconds <= 0){
-         dispatch({
-        type: TaskActionTypes.COMPLETE_TASK,
-        });
-        Worker.terminate();
+         if (playBeepRef.current) {
+        playBeepRef.current();
+        playBeepRef.current = null;
+      }
       }else{    
         dispatch({
         type: TaskActionTypes.COUNT_DOWN,
@@ -35,11 +36,19 @@ export function TaskContextProvider({children}:TtaskContextProviderProps){
 
     useEffect(()=> {
         if(!state.activeTask){
-          console.log('Worker por falta de activeTask')
           Worker.terminate();
         }
         Worker.postMessage(state);
     },[Worker,state]);
+
+    useEffect(() => {
+    if (state.activeTask && playBeepRef.current === null) {
+      playBeepRef.current = loadBeep();
+    } else {
+      playBeepRef.current = null;
+    }
+  }, [state.activeTask]);
+
     
    return (
     <TaskContext.Provider value={{ state,dispatch }}>
