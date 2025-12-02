@@ -10,6 +10,8 @@ import { getNextCycle } from "../../utils/getNextCycle";
 import { getNextCycletype } from "../../utils/getNextCycletype";
 import { TaskActionTypes } from "../../TaskContext/TaskContext/TaskActions";
 import { Tips } from "../tips";
+import { toast } from "react-toastify";
+import { showMessage } from "../../adpters/showMessage";
 
 
 export function MainForm(){
@@ -28,7 +30,7 @@ export function MainForm(){
       const taskName= taskNameInput.current.value.trim();
      
       if(taskName){
-        alert(`Digite o nome da tarefa`)
+         toast.warn('Digite o nome da tarefa');
         return 
       }
       const newTask: TaskModel = {
@@ -44,8 +46,10 @@ export function MainForm(){
     }
 
     function haldeInterrrupTask (){
-    dispatch({type: TaskActionTypes.INTERRUPT_TASK})
-     
+      showMessage.dismiss();
+      showMessage.error('Tarefa interrompida!');
+      dispatch({type: TaskActionTypes.INTERRUPT_TASK})
+    
     }
 
   return ( 
