@@ -4,7 +4,7 @@ import { GenericHtml } from "../GenericHtml";
 import { Heading } from "../Heading";
 
 
-export function NotFound() {
+export function AboutPomodoro() {
   return (
     <MainTemplets>
       <Container>

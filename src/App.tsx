@@ -2,17 +2,18 @@
 
 import './styles/theme.css';
 import './styles/global.css';
-import { Home } from './PAGES';
+
 import { TaskContextProvider } from './TaskContext/TaskContext/TaskProvider';
 import { MessagesContainer } from './componentes/messageContainer';
+import { Roteador } from './Roteador';
 
 
 export function App() {
   return ( 
    <TaskContextProvider>
     <MessagesContainer> 
-      <Home />  
-      </MessagesContainer>
+     <Roteador/>
+   </MessagesContainer>
  </TaskContextProvider> 
   );
 }

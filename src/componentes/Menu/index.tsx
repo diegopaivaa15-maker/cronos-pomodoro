@@ -1,6 +1,7 @@
 import {HistoryIcon, HouseIcon,  MoonIcon,  SettingsIcon, SunIcon, } from 'lucide-react';
 import styles from './styles.module.css';
 import { useState, useEffect} from 'react'; 
+import { Link } from 'react-router';
 
 type availableTheme = 'dark' | 'light'
  export function Menu(){ // fazendo a desisturação com o children assim é mais facil
@@ -34,9 +35,12 @@ type availableTheme = 'dark' | 'light'
 
     return (  // arial e title é para quando passa o mouse vai aparece a msg
     <nav className={styles.menu}>
-        <a className={styles.menuLink} href="#" aria-label='Ir para Home' title='Ir para Home'>
-            <HouseIcon/>
-        </a>
+        
+         <Link
+        className={styles.menuLink} to="/" aria-label='Ir para Home' title='Ir para Home'>                
+        <HouseIcon/>
+        </Link>  
+        
 
         <a className={styles.menuLink} href="#" aria-label='Ver Historico' title='Ver Historico'>
             <HistoryIcon/>
