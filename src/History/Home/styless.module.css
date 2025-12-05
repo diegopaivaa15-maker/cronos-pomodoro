@@ -1,3 +1,5 @@
+
+
 .buttonContainer button {
   min-width: auto;
   margin: 0;
@@ -36,7 +38,7 @@
   padding: 1.6rem;
 }
 
-thSort {
+.thSort {
   cursor: pointer;
   transition: all 0.1s ease-in-out;
 }

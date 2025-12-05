@@ -7,7 +7,10 @@ import { useTaskContext } from '../../TaskContext/TaskContext/UseTaskContext';
 import { formatDate } from '../../utils/formatDate';
 import { getTaskStatus } from '../../utils/getTaskStatus';
 import { useState } from 'react';
-import {  type SortTasksOptions } from '../../utils/sortTasks';
+import {  sortTasks, type SortTasksOptions } from '../../utils/sortTasks';
+import styles from './styless.module.css';
+
+
 
 export function History() {
   const { state } = useTaskContext();
@@ -34,10 +37,6 @@ export function History() {
       field,
     });
   }
- 
-  
-  
-  
     return (
     <MainTemplets>
       <Container>
@@ -75,7 +74,7 @@ export function History() {
                 </th>
 
             <tbody>
-              {sortTasks.map(task => {
+               {sortTasksOptions.tasks.map(task => {
                 const taskTypeDictionary = {
                   workTime: 'Foco',
                   shortBreakTime: 'Descanso curto',
@@ -93,8 +92,6 @@ export function History() {
                 );
               })}
             </tbody>
-          </table>
-        </div>
       </Container>
     </MainTemplets>
   );
