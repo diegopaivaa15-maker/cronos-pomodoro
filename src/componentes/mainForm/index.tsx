@@ -17,6 +17,7 @@ import { showMessage } from "../../adpters/showMessage";
 export function MainForm(){
   const {state, dispatch } = useTaskContext();
     const taskNameInput = useRef<HTMLInputElement> (null);
+     const lastTaskName =state.tasks[state.tasks.length - 1] ?.name; // interrogação fala que se nao tiver algo nao faça nada
 
     //Ciclos
     const nextCycle = getNextCycle(state.currentCycle);
@@ -42,6 +43,8 @@ export function MainForm(){
         duration: state.config[nextCyletype],
         type: nextCyletype,
       };
+      
+       dispatch({type: TaskActionTypes.START_TASK, playload: newTask}); // se der erro pode tira ele mais o certto é ter
     
     }
 
@@ -63,6 +66,7 @@ export function MainForm(){
           placeholder='Digite algo'
           ref={taskNameInput}
           disabled={!!state.activeTask}
+         defaultValue={lastTaskName}  //  se por so value preciso controla a aplicação 
         />
       </div>
 

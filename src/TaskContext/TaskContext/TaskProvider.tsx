@@ -5,6 +5,7 @@ import { taskReducer } from "./TaskReducer";
 import { Timeworkermenage } from "../../workes/TimerworkerMenage"
 import { TaskActionTypes } from "./TaskActions";
 import { loadBeep } from "../../utils/LodBaap";
+import type { TaskStateModel } from "../../models/TaskStateModel";
 
 
 
@@ -13,8 +14,22 @@ import { loadBeep } from "../../utils/LodBaap";
   };
 
 export function TaskContextProvider({children}:TtaskContextProviderProps){
-    const [ state,dispatch ] = useReducer(taskReducer, initialTaskState);
-     const playBeepRef = useRef<ReturnType<typeof loadBeep> | null>(null);
+    const [ state,dispatch ] = useReducer(taskReducer, initialTaskState, () =>{
+        const storageState = localStorage.getItem('state');
+
+    if (storageState === null) return initialTaskState;
+
+    const parsedStorageState = JSON.parse(storageState) as TaskStateModel;
+
+    return {
+      ...parsedStorageState,
+      activeTask: null,
+      secondsRemaining: 0,
+      formattedSecondsRemaining: '00:00',
+    };
+    });
+     
+    const playBeepRef = useRef<ReturnType<typeof loadBeep> | null>(null);
 
     const Worker = Timeworkermenage.getInstance();
 
@@ -35,9 +50,13 @@ export function TaskContextProvider({children}:TtaskContextProviderProps){
     });
 
     useEffect(()=> {
+      localStorage.setItem('state', JSON.stringify(state));
         if(!state.activeTask){
           Worker.terminate();
         }
+
+        document.title= '${state.formattSecondsRemaining} - Cronos Pomodoro';
+
         Worker.postMessage(state);
     },[Worker,state]);
 
