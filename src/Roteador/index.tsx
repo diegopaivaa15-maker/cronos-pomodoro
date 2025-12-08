@@ -3,6 +3,8 @@ import { Home } from "../PAGES/Home";
 import { NotFound } from "../NotFound";
 import { AboutPomodoro } from "../componentes/AboutPomodoro";
 import { History } from './../History/Home/index';
+import { Settings } from "../Settings/Home";
+
 
 export function Roteador(){
     return (
@@ -10,6 +12,7 @@ export function Roteador(){
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/history/' element={<History />} />
+            <Route path='/settings/' element={<Settings />} />
             <Route path='/about-pomodoro/' element={<AboutPomodoro/>} />
             <Route path='*' element={<NotFound />} />
           </Routes>
