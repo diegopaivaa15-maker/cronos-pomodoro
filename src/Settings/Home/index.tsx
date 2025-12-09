@@ -5,12 +5,17 @@ import { DefaultInput } from '../../componentes/DefaultInput';
 import { MainTemplets } from '../../Templets';
 import { DefaultButton } from '../../componentes/DefaultButton';
 import { useTaskContext } from '../../TaskContext/TaskContext/UseTaskContext';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { showMessage } from '../../adpters/showMessage';
+import { TaskActionTypes } from '../../TaskContext/TaskContext/TaskActions';
 
 
 export function Settings() {
-  const { state } = useTaskContext();
+  useEffect(() => {
+    document.title = 'Configurações - Chronos Pomodoro';
+  }, []);
+  
+  const { state, dispatch } = useTaskContext();
   const workTimeInput = useRef<HTMLInputElement>(null);
   const shortBreakTimeInput = useRef<HTMLInputElement>(null);
   const longBreakTimeInput = useRef<HTMLInputElement>(null);
@@ -49,6 +54,16 @@ export function Settings() {
     }
 
     console.log('SALVAR');
+    
+    dispatch({
+      type: TaskActionTypes.CHANGE_SETTINGS,
+      payload: {
+        workTime,
+        shortBreakTime,
+        longBreakTime,
+      },
+    });
+    showMessage.success('Configurações salvas');
   }
   
   return (
@@ -105,4 +120,8 @@ export function Settings() {
       </Container>
     </MainTemplets>
   );
+}
+
+function dispatch(arg0: { type: TaskActionTypes; payload: { workTime: number; shortBreakTime: number; longBreakTime: number; }; }) {
+  throw new Error('Function not implemented.');
 }
